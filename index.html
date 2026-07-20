@@ -3,24 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Civentraq engineering project tracking dashboard." />
-  <title>Civentraq | Engineering Projects, Clearly Tracked.</title>
+  <meta name="description" content="Civentraq project intelligence dashboard for construction and engineering teams." />
+  <title>Civentraq | Project Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@4.0.1/dist/pptxgen.bundle.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="#" aria-label="Civentraq dashboard">
-        <span class="brand-mark">CQ</span>
+        <span class="brand-mark" id="brandMark">
+          <img id="brandLogoImage" alt="" hidden />
+          <span id="brandInitials">CV</span>
+        </span>
         <span>
-          <strong>Civentraq</strong>
-          <small>Engineering Projects, Clearly Tracked.</small>
+          <strong id="brandName">Civentraq</strong>
+          <small id="brandTagline">Project Intelligence</small>
         </span>
       </a>
 
@@ -41,10 +48,10 @@
 
       <div class="sidebar-footer">
         <div class="company-card">
-          <div class="company-avatar">AA</div>
+          <div class="company-avatar" id="companyAvatar">AA</div>
           <div>
-            <strong>Alta Autocon</strong>
-            <small>Engineering workspace</small>
+            <strong id="companyName">Alta Autocon</strong>
+            <small id="companySubtitle">Engineering workspace</small>
           </div>
         </div>
         <button class="nav-link" id="settingsButton">
@@ -68,7 +75,7 @@
         </div>
       </header>
 
-      <section class="notice-bar" id="dataNotice">
+      <section class="notice-bar" id="dataNotice" data-custom-panel="notice">
         <div>
           <strong>Demo data is active.</strong>
           Upload an Excel or CSV export to replace it with your own project information.
@@ -85,7 +92,7 @@
           <div class="last-updated">Last updated: <span id="lastUpdated">20 July 2026</span></div>
         </div>
 
-        <div class="kpi-grid">
+        <div class="kpi-grid" data-custom-panel="kpis">
           <article class="kpi-card">
             <div class="kpi-top"><span>Approved budget</span><span class="kpi-icon">R</span></div>
             <strong id="budgetKpi">R10.00m</strong>
@@ -99,7 +106,7 @@
           <article class="kpi-card">
             <div class="kpi-top"><span>Remaining budget</span><span class="kpi-icon">◷</span></div>
             <strong id="remainingKpi">R3.80m</strong>
-            <small id="forecastSubtext">Forecast: within budget</small>
+            <small id="forecastSubtext">Estimated final project cost: within budget</small>
           </article>
           <article class="kpi-card">
             <div class="kpi-top"><span>Actual progress</span><span class="kpi-icon">✓</span></div>
@@ -119,7 +126,7 @@
         </div>
 
         <div class="dashboard-grid two-thirds">
-          <article class="panel chart-panel">
+          <article class="panel chart-panel" data-custom-panel="cost">
             <div class="panel-heading">
               <div><h3>Cost performance</h3><p>Cumulative planned versus actual expenditure</p></div>
               <span class="status-pill" id="costStatus">On budget</span>
@@ -127,31 +134,50 @@
             <div class="chart-wrap"><canvas id="costChart"></canvas></div>
           </article>
 
-          <article class="panel insight-panel">
+          <article class="panel insight-panel" data-custom-panel="insight">
             <div class="panel-heading">
               <div><h3>Management insight</h3><p>Automatic summary from project data</p></div>
               <span class="ai-badge">AI preview</span>
             </div>
             <div class="insight-score">
-              <div class="score-ring" id="healthScore">74</div>
-              <div><strong id="healthLabel">Needs attention</strong><small>Overall project health</small></div>
+              <div class="score-ring" id="healthRing" style="--score: 70">
+                <span id="healthScore">70</span>
+                <small>/100</small>
+              </div>
+              <div><strong id="healthLabel">Needs attention</strong><small id="healthScoreCaption">Insight review score</small></div>
             </div>
             <p id="aiSummary">Project progress is behind plan while expenditure remains within the approved budget. The delivery team should review delayed work packages and protect the remaining cost contingency.</p>
+
+            <section class="score-roadmap" aria-labelledby="scoreRoadmapTitle">
+              <div class="roadmap-heading">
+                <div>
+                  <strong id="scoreRoadmapTitle">Path to 100</strong>
+                  <small id="scoreGap">30 points available</small>
+                </div>
+                <div class="roadmap-tools">
+                  <span id="scoreUpdateNote">Score updates as insights are reviewed</span>
+                  <button class="restore-insights" id="restoreInsights" type="button" hidden>Restore ignored</button>
+                </div>
+              </div>
+              <div class="score-track" aria-hidden="true"><span id="scoreProgress" style="width: 70%"></span></div>
+              <div class="improvement-plan" id="improvementPlan"></div>
+            </section>
+
             <div class="insight-actions">
-              <button class="button dark" id="regenerateInsight">Regenerate summary</button>
+              <button class="button dark" id="regenerateInsight">Refresh score &amp; actions</button>
             </div>
           </article>
         </div>
 
         <div class="dashboard-grid equal">
-          <article class="panel chart-panel">
+          <article class="panel chart-panel" data-custom-panel="progress">
             <div class="panel-heading">
               <div><h3>Schedule performance</h3><p>Planned versus actual completion</p></div>
             </div>
             <div class="chart-wrap"><canvas id="progressChart"></canvas></div>
           </article>
 
-          <article class="panel chart-panel">
+          <article class="panel chart-panel" data-custom-panel="category">
             <div class="panel-heading">
               <div><h3>Spend by category</h3><p>Actual cost distribution</p></div>
             </div>
@@ -160,7 +186,7 @@
         </div>
 
         <div class="dashboard-grid two-thirds reverse-mobile">
-          <article class="panel">
+          <article class="panel" data-custom-panel="packages">
             <div class="panel-heading">
               <div><h3>Work package status</h3><p>Latest progress by construction discipline</p></div>
               <button class="text-button" id="viewAllPackages">View all</button>
@@ -173,7 +199,7 @@
             </div>
           </article>
 
-          <article class="panel risk-panel">
+          <article class="panel risk-panel" data-custom-panel="risks">
             <div class="panel-heading">
               <div><h3>Risks requiring attention</h3><p>Based on latest imported data</p></div>
               <span class="risk-count" id="riskCount">3</span>
@@ -205,7 +231,7 @@
           <div>
             <span class="step-number">2</span>
             <h3>Upload the file</h3>
-            <p>BuildMetric reads your columns and suggests field matches.</p>
+            <p>Civentraq reads your columns and suggests field matches.</p>
           </div>
           <div>
             <span class="step-number">3</span>
@@ -227,23 +253,23 @@
       <section class="view" id="reportsView">
         <div class="section-heading">
           <div><p class="eyebrow">Client reporting</p><h2>Reports</h2></div>
-          <button class="button primary" id="reportsExportButton">Generate PDF</button>
+          <button class="button primary" id="reportsExportButton">Export report</button>
         </div>
         <div class="report-grid">
-          <article class="report-card">
+          <article class="report-card" data-report-card="executive">
             <span class="report-icon">▥</span><h3>Executive progress report</h3>
             <p>Budget, programme, key statistics, risks, and management commentary.</p>
-            <button class="button secondary report-generate">Generate report</button>
+            <button class="button secondary report-generate" data-report-type="executive">Choose format</button>
           </article>
-          <article class="report-card">
+          <article class="report-card" data-report-card="cost">
             <span class="report-icon">R</span><h3>Cost performance report</h3>
             <p>Planned cost, actual expenditure, remaining budget, and category analysis.</p>
-            <button class="button secondary report-generate">Generate report</button>
+            <button class="button secondary report-generate" data-report-type="cost">Choose format</button>
           </article>
-          <article class="report-card">
+          <article class="report-card" data-report-card="schedule">
             <span class="report-icon">◷</span><h3>Schedule variance report</h3>
             <p>Planned versus actual progress with delayed work packages and milestones.</p>
-            <button class="button secondary report-generate">Generate report</button>
+            <button class="button secondary report-generate" data-report-type="schedule">Choose format</button>
           </article>
         </div>
       </section>
@@ -281,22 +307,123 @@
 
   <div class="modal" id="settingsModal" aria-hidden="true">
     <div class="modal-backdrop" data-close-settings></div>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+    <div class="modal-card extra-large customization-modal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
       <button class="modal-close" data-close-settings aria-label="Close">×</button>
-      <div class="modal-header">
-        <p class="eyebrow">Dashboard settings</p>
-        <h2 id="settingsModalTitle">Project details</h2>
+      <div class="modal-header customization-header">
+        <div>
+          <p class="eyebrow">Dashboard studio</p>
+          <h2 id="settingsModalTitle">Customize Civentraq</h2>
+          <p>Change the project setup, dashboard layout, colours, charts, branding, and exported report appearance. Changes preview instantly.</p>
+        </div>
+        <button type="button" class="button secondary reset-customization" id="resetCustomizationButton">Reset design</button>
       </div>
-      <form id="settingsForm" class="form-grid">
-        <label>Project name<input id="settingProjectName" required /></label>
-        <label>Client<input id="settingClient" required /></label>
-        <label>Location<input id="settingLocation" required /></label>
-        <label>Approved budget<input id="settingBudget" type="number" min="0" step="1000" required /></label>
-        <label>Start date<input id="settingStart" type="date" required /></label>
-        <label>Completion date<input id="settingEnd" type="date" required /></label>
-        <div class="modal-actions form-actions">
-          <button type="button" class="button secondary" data-close-settings>Cancel</button>
-          <button type="submit" class="button primary">Save changes</button>
+
+      <form id="settingsForm" class="customization-form">
+        <div class="settings-tabs" role="tablist" aria-label="Customization sections">
+          <button type="button" class="settings-tab active" data-settings-tab="project">Project</button>
+          <button type="button" class="settings-tab" data-settings-tab="theme">Theme</button>
+          <button type="button" class="settings-tab" data-settings-tab="layout">Layout</button>
+          <button type="button" class="settings-tab" data-settings-tab="charts">Charts</button>
+          <button type="button" class="settings-tab" data-settings-tab="branding">Branding</button>
+          <button type="button" class="settings-tab" data-settings-tab="visibility">Sections</button>
+        </div>
+
+        <div class="settings-panel active" data-settings-panel="project">
+          <div class="settings-section-heading"><div><h3>Project setup</h3><p>These details appear on the dashboard and in every exported report.</p></div></div>
+          <div class="form-grid settings-fields">
+            <label>Project name<input id="settingProjectName" required /></label>
+            <label>Client<input id="settingClient" required /></label>
+            <label>Location<input id="settingLocation" required /></label>
+            <label>Approved budget<input id="settingBudget" type="number" min="0" step="1000" required /></label>
+            <label>Start date<input id="settingStart" type="date" required /></label>
+            <label>Completion date<input id="settingEnd" type="date" required /></label>
+          </div>
+        </div>
+
+        <div class="settings-panel" data-settings-panel="theme">
+          <div class="settings-section-heading"><div><h3>Theme and colour scheme</h3><p>Start with a preset, then fine-tune every main dashboard colour.</p></div></div>
+          <div class="theme-presets">
+            <button type="button" class="theme-preset active" data-theme-preset="civentraq"><span class="theme-swatches"><i style="--swatch:#0d6b57"></i><i style="--swatch:#111b22"></i><i style="--swatch:#f3f5f7"></i></span><strong>Civentraq</strong><small>Engineering green</small></button>
+            <button type="button" class="theme-preset" data-theme-preset="ocean"><span class="theme-swatches"><i style="--swatch:#1769aa"></i><i style="--swatch:#102331"></i><i style="--swatch:#f2f6fa"></i></span><strong>Ocean</strong><small>Corporate blue</small></button>
+            <button type="button" class="theme-preset" data-theme-preset="construction"><span class="theme-swatches"><i style="--swatch:#d56a16"></i><i style="--swatch:#28221d"></i><i style="--swatch:#f7f4f0"></i></span><strong>Construction</strong><small>Industrial orange</small></button>
+            <button type="button" class="theme-preset" data-theme-preset="executive"><span class="theme-swatches"><i style="--swatch:#6750a4"></i><i style="--swatch:#201b2c"></i><i style="--swatch:#f5f3f8"></i></span><strong>Executive</strong><small>Premium purple</small></button>
+            <button type="button" class="theme-preset" data-theme-preset="slate"><span class="theme-swatches"><i style="--swatch:#4d6470"></i><i style="--swatch:#182126"></i><i style="--swatch:#f2f4f5"></i></span><strong>Slate</strong><small>Neutral technical</small></button>
+          </div>
+          <div class="form-grid settings-fields">
+            <label>Appearance<select id="customThemeMode"><option value="light">Light</option><option value="dark">Dark</option><option value="system">Match device</option></select></label>
+            <label>Application font<select id="customFont"><option value="inter">Inter</option><option value="roboto">Roboto Condensed</option><option value="system">System UI</option><option value="classic">Classic serif</option></select></label>
+            <label class="color-field">Accent colour<span><input id="customAccent" type="color" /><output id="customAccentValue"></output></span></label>
+            <label class="color-field">Sidebar colour<span><input id="customSidebar" type="color" /><output id="customSidebarValue"></output></span></label>
+            <label class="color-field">Page background<span><input id="customBackground" type="color" /><output id="customBackgroundValue"></output></span></label>
+            <label class="color-field">Card background<span><input id="customSurface" type="color" /><output id="customSurfaceValue"></output></span></label>
+            <label class="color-field">Main text colour<span><input id="customText" type="color" /><output id="customTextValue"></output></span></label>
+          </div>
+        </div>
+
+        <div class="settings-panel" data-settings-panel="layout">
+          <div class="settings-section-heading"><div><h3>Dashboard layout</h3><p>Control spacing, card shape, information density, and the overall dashboard arrangement.</p></div></div>
+          <div class="form-grid settings-fields">
+            <label>Layout preset<select id="customLayout"><option value="balanced">Balanced</option><option value="analytics">Analytics focus</option><option value="presentation">Presentation</option></select></label>
+            <label>Information density<select id="customDensity"><option value="comfortable">Comfortable</option><option value="compact">Compact</option><option value="spacious">Spacious</option></select></label>
+            <label>Card style<select id="customCardStyle"><option value="soft">Soft shadow</option><option value="outlined">Outlined</option><option value="flat">Flat</option></select></label>
+            <label>Corner roundness<div class="range-field"><input id="customRadius" type="range" min="4" max="28" step="1" /><output id="customRadiusValue">18px</output></div></label>
+          </div>
+          <div class="layout-preview-grid" aria-hidden="true">
+            <div class="layout-preview-card"><span></span><span></span><span></span></div>
+            <div class="layout-preview-wide"></div>
+            <div class="layout-preview-split"><i></i><i></i></div>
+          </div>
+        </div>
+
+        <div class="settings-panel" data-settings-panel="charts">
+          <div class="settings-section-heading"><div><h3>Chart appearance</h3><p>Adjust the chart line style, colours, legends, gridlines, and motion.</p></div></div>
+          <div class="form-grid settings-fields">
+            <label>Line style<select id="customChartStyle"><option value="smooth">Smooth curves</option><option value="straight">Straight lines</option><option value="stepped">Stepped lines</option></select></label>
+            <label>Chart palette<select id="customChartPalette"><option value="brand">Brand colours</option><option value="vivid">Vivid comparison</option><option value="mono">Monochrome</option></select></label>
+            <label>Legend position<select id="customLegendPosition"><option value="top">Top</option><option value="bottom">Bottom</option></select></label>
+            <label class="toggle-field"><span><strong>Show gridlines</strong><small>Display chart reference lines</small></span><input id="customGridlines" type="checkbox" /><i></i></label>
+            <label class="toggle-field"><span><strong>Fill line charts</strong><small>Add a soft colour below data lines</small></span><input id="customChartFill" type="checkbox" /><i></i></label>
+            <label class="toggle-field"><span><strong>Animations</strong><small>Animate charts and dashboard transitions</small></span><input id="customAnimations" type="checkbox" /><i></i></label>
+          </div>
+        </div>
+
+        <div class="settings-panel" data-settings-panel="branding">
+          <div class="settings-section-heading"><div><h3>Company and report branding</h3><p>Use your own identity on the dashboard, PDF files, PowerPoint slides, and report images.</p></div></div>
+          <div class="branding-grid">
+            <div class="logo-uploader">
+              <div class="logo-preview" id="logoPreview"><span id="logoPreviewInitials">CV</span><img id="logoPreviewImage" alt="Logo preview" hidden /></div>
+              <div><strong>Company logo</strong><p>PNG or JPG. A square or transparent logo works best.</p><label class="button secondary upload-logo-button">Choose logo<input id="customLogoInput" type="file" accept="image/png,image/jpeg" hidden /></label><button type="button" class="text-button remove-logo" id="removeLogoButton">Remove</button></div>
+            </div>
+            <div class="form-grid settings-fields branding-fields">
+              <label>Product name<input id="customBrandName" maxlength="32" /></label>
+              <label>Product tagline<input id="customBrandTagline" maxlength="50" /></label>
+              <label>Product initials<input id="customBrandInitials" maxlength="4" /></label>
+              <label>Workspace / company<input id="customCompanyName" maxlength="45" /></label>
+              <label>Workspace subtitle<input id="customCompanySubtitle" maxlength="55" /></label>
+              <label>Company initials<input id="customCompanyInitials" maxlength="4" /></label>
+              <label>Default report title<input id="customReportTitle" maxlength="70" /></label>
+              <label>Report footer<input id="customReportFooter" maxlength="80" /></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-panel" data-settings-panel="visibility">
+          <div class="settings-section-heading"><div><h3>Dashboard sections</h3><p>Choose exactly what appears in the project overview. Hidden sections can be restored at any time.</p></div><button type="button" class="text-button" id="showAllSectionsButton">Show all</button></div>
+          <div class="visibility-grid">
+            <label class="section-toggle"><input id="showNotice" type="checkbox" /><span><strong>Import notice</strong><small>Demo/import status banner</small></span><i></i></label>
+            <label class="section-toggle"><input id="showKpis" type="checkbox" /><span><strong>KPI cards</strong><small>Budget, progress, deadline, and labour</small></span><i></i></label>
+            <label class="section-toggle"><input id="showCost" type="checkbox" /><span><strong>Cost performance</strong><small>Planned versus actual expenditure</small></span><i></i></label>
+            <label class="section-toggle"><input id="showInsight" type="checkbox" /><span><strong>Management insight</strong><small>Health score and recommendations</small></span><i></i></label>
+            <label class="section-toggle"><input id="showProgress" type="checkbox" /><span><strong>Schedule chart</strong><small>Planned versus actual completion</small></span><i></i></label>
+            <label class="section-toggle"><input id="showCategory" type="checkbox" /><span><strong>Spend by category</strong><small>Actual cost distribution</small></span><i></i></label>
+            <label class="section-toggle"><input id="showPackages" type="checkbox" /><span><strong>Work packages</strong><small>Discipline-level progress table</small></span><i></i></label>
+            <label class="section-toggle"><input id="showRisks" type="checkbox" /><span><strong>Project risks</strong><small>Items requiring attention</small></span><i></i></label>
+          </div>
+        </div>
+
+        <div class="modal-actions customization-actions">
+          <span class="save-note">Your design is saved in this browser and applied to exported reports.</span>
+          <div><button type="button" class="button secondary" data-close-settings>Cancel</button><button type="submit" class="button primary">Save dashboard</button></div>
         </div>
       </form>
     </div>
@@ -322,6 +449,59 @@
           <button type="submit" class="button primary">Create project</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <div class="modal" id="exportModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-export></div>
+    <div class="modal-card large export-modal-card" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+      <button class="modal-close" data-close-export aria-label="Close">×</button>
+      <div class="modal-header">
+        <p class="eyebrow">Presentation centre</p>
+        <h2 id="exportModalTitle">Export complete project report</h2>
+        <p id="exportModalDescription">Choose the file you need. Every export is created from the latest dashboard data and management score.</p>
+        <div class="selected-report-banner" aria-live="polite">
+          <span>Selected report</span>
+          <strong id="exportReportType">Complete project report</strong>
+        </div>
+      </div>
+
+      <div class="export-grid">
+        <button class="export-option recommended" type="button" data-export-format="pptx">
+          <span class="export-type-icon pptx">P</span>
+          <span class="export-option-copy"><strong>PowerPoint presentation</strong><small>Editable client-ready slides with KPIs, charts, risks, and the Path to 100.</small></span>
+          <span class="file-extension">.PPTX</span>
+        </button>
+        <button class="export-option" type="button" data-export-format="pdf">
+          <span class="export-type-icon pdf">PDF</span>
+          <span class="export-option-copy"><strong>Professional PDF report</strong><small>Multi-page report for formal submissions, printing, and client email.</small></span>
+          <span class="file-extension">.PDF</span>
+        </button>
+        <button class="export-option" type="button" data-export-format="xlsx">
+          <span class="export-type-icon excel">X</span>
+          <span class="export-option-copy"><strong>Excel report pack</strong><small>Summary, source data, work packages, risks, and improvement actions in separate sheets.</small></span>
+          <span class="file-extension">.XLSX</span>
+        </button>
+        <button class="export-option" type="button" data-export-format="png">
+          <span class="export-type-icon image">IMG</span>
+          <span class="export-option-copy"><strong>Dashboard image</strong><small>High-resolution image for WhatsApp, email, documents, or a presentation slide.</small></span>
+          <span class="file-extension">.PNG</span>
+        </button>
+        <button class="export-option" type="button" data-export-format="csv">
+          <span class="export-type-icon csv">CSV</span>
+          <span class="export-option-copy"><strong>Reporting data</strong><small>Clean project data for planners, analysts, SAP follow-up, or another reporting tool.</small></span>
+          <span class="file-extension">.CSV</span>
+        </button>
+      </div>
+
+      <div class="export-status hidden" id="exportStatus" role="status" aria-live="polite">
+        <span class="export-spinner" aria-hidden="true"></span>
+        <span>Preparing your file…</span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="button secondary" data-close-export>Cancel</button>
+      </div>
     </div>
   </div>
 
