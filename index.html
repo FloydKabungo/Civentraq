@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Civentraq engineering project tracking dashboard." />
+  <title>Civentraq | Engineering Projects, Clearly Tracked.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Civentraq dashboard">
+        <span class="brand-mark">CQ</span>
+        <span>
+          <strong>Civentraq</strong>
+          <small>Engineering Projects, Clearly Tracked.</small>
+        </span>
+      </a>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="overview">
+          <span class="nav-icon">▦</span><span>Overview</span>
+        </button>
+        <button class="nav-link" data-view="projects">
+          <span class="nav-icon">▤</span><span>Projects</span>
+        </button>
+        <button class="nav-link" data-view="imports">
+          <span class="nav-icon">⇧</span><span>Data imports</span>
+        </button>
+        <button class="nav-link" data-view="reports">
+          <span class="nav-icon">▧</span><span>Reports</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="company-card">
+          <div class="company-avatar">AA</div>
+          <div>
+            <strong>Alta Autocon</strong>
+            <small>Engineering workspace</small>
+          </div>
+        </div>
+        <button class="nav-link" id="settingsButton">
+          <span class="nav-icon">⚙</span><span>Project settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="project-heading">
+          <div class="eyebrow">Active project</div>
+          <h1 id="projectTitle">Eskom Refinery Maintenance Project</h1>
+          <p id="projectMeta">Cape Town · 01 February 2026 – 30 November 2026</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="button secondary" id="customizeButton">Customize</button>
+          <button class="button secondary" id="importButton">Import data</button>
+          <button class="button primary" id="exportButton">Export report</button>
+        </div>
+      </header>
+
+      <section class="notice-bar" id="dataNotice">
+        <div>
+          <strong>Demo data is active.</strong>
+          Upload an Excel or CSV export to replace it with your own project information.
+        </div>
+        <button class="text-button" id="noticeImportButton">Upload project data →</button>
+      </section>
+
+      <section class="view active" id="overviewView">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Executive overview</p>
+            <h2>Project performance</h2>
+          </div>
+          <div class="last-updated">Last updated: <span id="lastUpdated">20 July 2026</span></div>
+        </div>
+
+        <div class="kpi-grid">
+          <article class="kpi-card">
+            <div class="kpi-top"><span>Approved budget</span><span class="kpi-icon">R</span></div>
+            <strong id="budgetKpi">R10.00m</strong>
+            <small>Client-approved project value</small>
+          </article>
+          <article class="kpi-card">
+            <div class="kpi-top"><span>Actual spend</span><span class="kpi-icon">↗</span></div>
+            <strong id="spentKpi">R6.20m</strong>
+            <small id="spentSubtext">62.0% of approved budget</small>
+          </article>
+          <article class="kpi-card">
+            <div class="kpi-top"><span>Remaining budget</span><span class="kpi-icon">◷</span></div>
+            <strong id="remainingKpi">R3.80m</strong>
+            <small id="forecastSubtext">Forecast: within budget</small>
+          </article>
+          <article class="kpi-card">
+            <div class="kpi-top"><span>Actual progress</span><span class="kpi-icon">✓</span></div>
+            <strong id="progressKpi">62%</strong>
+            <small id="progressSubtext">8% behind the planned 70%</small>
+          </article>
+          <article class="kpi-card">
+            <div class="kpi-top"><span>Days remaining</span><span class="kpi-icon">⌁</span></div>
+            <strong id="daysKpi">133</strong>
+            <small id="deadlineSubtext">Deadline: 30 November 2026</small>
+          </article>
+          <article class="kpi-card">
+            <div class="kpi-top"><span>Labour hours</span><span class="kpi-icon">◉</span></div>
+            <strong id="labourKpi">12,450</strong>
+            <small>Recorded hours to date</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid two-thirds">
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div><h3>Cost performance</h3><p>Cumulative planned versus actual expenditure</p></div>
+              <span class="status-pill" id="costStatus">On budget</span>
+            </div>
+            <div class="chart-wrap"><canvas id="costChart"></canvas></div>
+          </article>
+
+          <article class="panel insight-panel">
+            <div class="panel-heading">
+              <div><h3>Management insight</h3><p>Automatic summary from project data</p></div>
+              <span class="ai-badge">AI preview</span>
+            </div>
+            <div class="insight-score">
+              <div class="score-ring" id="healthScore">74</div>
+              <div><strong id="healthLabel">Needs attention</strong><small>Overall project health</small></div>
+            </div>
+            <p id="aiSummary">Project progress is behind plan while expenditure remains within the approved budget. The delivery team should review delayed work packages and protect the remaining cost contingency.</p>
+            <div class="insight-actions">
+              <button class="button dark" id="regenerateInsight">Regenerate summary</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="dashboard-grid equal">
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div><h3>Schedule performance</h3><p>Planned versus actual completion</p></div>
+            </div>
+            <div class="chart-wrap"><canvas id="progressChart"></canvas></div>
+          </article>
+
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <div><h3>Spend by category</h3><p>Actual cost distribution</p></div>
+            </div>
+            <div class="chart-wrap doughnut"><canvas id="categoryChart"></canvas></div>
+          </article>
+        </div>
+
+        <div class="dashboard-grid two-thirds reverse-mobile">
+          <article class="panel">
+            <div class="panel-heading">
+              <div><h3>Work package status</h3><p>Latest progress by construction discipline</p></div>
+              <button class="text-button" id="viewAllPackages">View all</button>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Work package</th><th>Owner</th><th>Progress</th><th>Status</th></tr></thead>
+                <tbody id="packageTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel risk-panel">
+            <div class="panel-heading">
+              <div><h3>Risks requiring attention</h3><p>Based on latest imported data</p></div>
+              <span class="risk-count" id="riskCount">3</span>
+            </div>
+            <div id="riskList" class="risk-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="projectsView">
+        <div class="section-heading">
+          <div><p class="eyebrow">Portfolio</p><h2>Projects</h2></div>
+          <button class="button primary" id="newProjectButton">Create project</button>
+        </div>
+        <div class="project-grid" id="projectGrid"></div>
+      </section>
+
+      <section class="view" id="importsView">
+        <div class="section-heading">
+          <div><p class="eyebrow">Data centre</p><h2>Project imports</h2></div>
+          <button class="button primary" id="importsUploadButton">Upload file</button>
+        </div>
+        <article class="panel import-guide">
+          <div>
+            <span class="step-number">1</span>
+            <h3>Export from SAP or Excel</h3>
+            <p>Save the project report as an XLSX, XLS, or CSV file.</p>
+          </div>
+          <div>
+            <span class="step-number">2</span>
+            <h3>Upload the file</h3>
+            <p>BuildMetric reads your columns and suggests field matches.</p>
+          </div>
+          <div>
+            <span class="step-number">3</span>
+            <h3>Review the dashboard</h3>
+            <p>Charts, KPIs, risks, and summaries update automatically.</p>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="panel-heading"><div><h3>Import history</h3><p>Files processed in this browser</p></div></div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>File</th><th>Date</th><th>Rows</th><th>Status</th></tr></thead>
+              <tbody id="importHistoryBody"><tr><td colspan="4" class="empty-cell">No files imported yet.</td></tr></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="view" id="reportsView">
+        <div class="section-heading">
+          <div><p class="eyebrow">Client reporting</p><h2>Reports</h2></div>
+          <button class="button primary" id="reportsExportButton">Generate PDF</button>
+        </div>
+        <div class="report-grid">
+          <article class="report-card">
+            <span class="report-icon">▥</span><h3>Executive progress report</h3>
+            <p>Budget, programme, key statistics, risks, and management commentary.</p>
+            <button class="button secondary report-generate">Generate report</button>
+          </article>
+          <article class="report-card">
+            <span class="report-icon">R</span><h3>Cost performance report</h3>
+            <p>Planned cost, actual expenditure, remaining budget, and category analysis.</p>
+            <button class="button secondary report-generate">Generate report</button>
+          </article>
+          <article class="report-card">
+            <span class="report-icon">◷</span><h3>Schedule variance report</h3>
+            <p>Planned versus actual progress with delayed work packages and milestones.</p>
+            <button class="button secondary report-generate">Generate report</button>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="importModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card large" role="dialog" aria-modal="true" aria-labelledby="importModalTitle">
+      <button class="modal-close" data-close-modal aria-label="Close">×</button>
+      <div class="modal-header">
+        <p class="eyebrow">Data import</p>
+        <h2 id="importModalTitle">Upload project data</h2>
+        <p>Use an Excel or CSV export. Your data stays inside this browser prototype.</p>
+      </div>
+      <label class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" hidden />
+        <span class="upload-icon">⇧</span>
+        <strong>Drop a file here or click to browse</strong>
+        <small>XLSX, XLS, or CSV · First worksheet will be used</small>
+      </label>
+      <div id="filePreview" class="file-preview hidden"></div>
+      <div class="mapping-section hidden" id="mappingSection">
+        <div class="mapping-heading">
+          <div><h3>Confirm column matching</h3><p>We suggested matches automatically. Adjust any incorrect fields.</p></div>
+        </div>
+        <div class="mapping-grid" id="mappingGrid"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="button secondary" data-close-modal>Cancel</button>
+        <button class="button primary" id="processImportButton" disabled>Build dashboard</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-settings></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+      <button class="modal-close" data-close-settings aria-label="Close">×</button>
+      <div class="modal-header">
+        <p class="eyebrow">Dashboard settings</p>
+        <h2 id="settingsModalTitle">Project details</h2>
+      </div>
+      <form id="settingsForm" class="form-grid">
+        <label>Project name<input id="settingProjectName" required /></label>
+        <label>Client<input id="settingClient" required /></label>
+        <label>Location<input id="settingLocation" required /></label>
+        <label>Approved budget<input id="settingBudget" type="number" min="0" step="1000" required /></label>
+        <label>Start date<input id="settingStart" type="date" required /></label>
+        <label>Completion date<input id="settingEnd" type="date" required /></label>
+        <div class="modal-actions form-actions">
+          <button type="button" class="button secondary" data-close-settings>Cancel</button>
+          <button type="submit" class="button primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="projectModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-project></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+      <button class="modal-close" data-close-project aria-label="Close">×</button>
+      <div class="modal-header">
+        <p class="eyebrow">New project</p>
+        <h2 id="projectModalTitle">Create a project</h2>
+      </div>
+      <form id="projectForm" class="form-grid">
+        <label>Project name<input id="newProjectName" required placeholder="e.g. Refinery shutdown works" /></label>
+        <label>Client<input id="newProjectClient" required placeholder="e.g. Eskom" /></label>
+        <label>Location<input id="newProjectLocation" required placeholder="e.g. Cape Town" /></label>
+        <label>Approved budget<input id="newProjectBudget" type="number" min="0" step="1000" required placeholder="10000000" /></label>
+        <label>Start date<input id="newProjectStart" type="date" required /></label>
+        <label>Completion date<input id="newProjectEnd" type="date" required /></label>
+        <div class="modal-actions form-actions">
+          <button type="button" class="button secondary" data-close-project>Cancel</button>
+          <button type="submit" class="button primary">Create project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

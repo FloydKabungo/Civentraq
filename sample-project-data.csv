@@ -1,0 +1,7 @@
+Reporting Date,Discipline,Planned Cost,Actual Cost,Planned Progress,Actual Progress,Labour Hours,Tasks Completed,Total Tasks,Risk Level
+2026-02-28,Mobilisation,700000,620000,8,7,900,12,220,Low
+2026-03-31,Mechanical,950000,890000,18,16,1420,28,220,Low
+2026-04-30,Electrical,1150000,1080000,29,26,1680,49,220,Medium
+2026-05-31,Piping,1250000,1300000,42,38,1920,78,220,Medium
+2026-06-30,Civil,1350000,1240000,56,49,2410,111,220,High
+2026-07-20,Instrumentation,1200000,1070000,70,62,4120,148,220,High
