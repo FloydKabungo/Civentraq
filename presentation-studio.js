@@ -32,7 +32,14 @@ const ps = {
   saveTimer: null,
   renderTimer: null,
   inspectorTab: "element",
-  resizeObserver: null
+  resizeObserver: null,
+  rendering: false,
+  renderQueued: false,
+  opened: false,
+  openingTimer: null,
+  renderGeneration: 0,
+  lastWorkspaceWidth: 0,
+  lastWorkspaceHeight: 0
 };
 
 const pse = {};
@@ -46,7 +53,12 @@ function initPresentationStudio() {
   if (!pse.psSlideCanvas) return;
   ps.data = loadPresentationDeck();
   bindPresentationEvents();
-  renderPresentationStudio();
+  // The deck is rendered on first open. Keeping the heavy slide/chart render
+  // out of the initial home-page load makes navigation immediate and avoids
+  // competing with the dashboard charts.
+  if (document.getElementById("presentationView")?.classList.contains("active")) {
+    openPresentationStudioSafely();
+  }
 }
 
 function cachePresentationElements() {
@@ -67,10 +79,7 @@ function cachePresentationElements() {
 
 function bindPresentationEvents() {
   const presentationNav = document.querySelector('[data-view="presentation"]');
-  presentationNav?.addEventListener("click", () => setTimeout(() => {
-    enterPresentationMode();
-    renderPresentationStudio();
-  }, 0));
+  presentationNav?.addEventListener("click", openPresentationStudioSafely);
   document.querySelectorAll('.nav-link[data-view]').forEach(button => {
     if (button.dataset.view !== "presentation") button.addEventListener("click", leavePresentationMode);
   });
@@ -206,13 +215,46 @@ function bindPresentationEvents() {
   document.addEventListener("keydown", handlePresentationKeyboard);
   window.addEventListener("resize", () => requestAnimationFrame(() => { updateStudioPanelButtons(); applyCanvasZoom(); }));
 
+  // A permanently active ResizeObserver previously caused a resize/render loop
+  // when the canvas added or removed scrollbars. Observe real workspace-size
+  // changes only, and ignore changes while the editor is hidden.
   if ("ResizeObserver" in window && pse.psCanvasWorkspace) {
-    ps.resizeObserver = new ResizeObserver(() => requestAnimationFrame(applyCanvasZoom));
+    ps.resizeObserver = new ResizeObserver(entries => {
+      if (!document.getElementById("presentationView")?.classList.contains("active")) return;
+      const box = entries[0]?.contentRect;
+      const width = Math.round(box?.width || 0);
+      const height = Math.round(box?.height || 0);
+      if (Math.abs(width - ps.lastWorkspaceWidth) < 3 && Math.abs(height - ps.lastWorkspaceHeight) < 3) return;
+      ps.lastWorkspaceWidth = width;
+      ps.lastWorkspaceHeight = height;
+      requestAnimationFrame(applyCanvasZoom);
+    });
     ps.resizeObserver.observe(pse.psCanvasWorkspace);
   }
-  if (document.getElementById("presentationView")?.classList.contains("active")) enterPresentationMode();
+  if (document.getElementById("presentationView")?.classList.contains("active")) openPresentationStudioSafely();
 }
 
+
+function openPresentationStudioSafely() {
+  clearTimeout(ps.openingTimer);
+  document.body.classList.add("presentation-opening");
+  ps.openingTimer = setTimeout(() => {
+    try {
+      enterPresentationMode();
+      renderPresentationStudio();
+      ps.opened = true;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        try { fitCanvasToWorkspace(); } catch (_) {}
+        document.body.classList.remove("presentation-opening");
+        window.CiventraqStoryStudio?.activate?.();
+      }));
+    } catch (error) {
+      document.body.classList.remove("presentation-opening");
+      console.error("Presentation Studio failed to open", error);
+      window.CiventraqStoryStudio?.showError?.("Presentation Studio could not open. Your project data is safe; reload and try again.");
+    }
+  }, 0);
+}
 
 function loadEditorPreferences() {
   try {
@@ -443,13 +485,27 @@ function defaultElement(type, overrides = {}) {
 
 function renderPresentationStudio() {
   if (!ps.data) return;
-  if (!currentSlide()) ps.data.currentSlideId = ps.data.slides[0]?.id;
-  renderSlideList();
-  renderCurrentSlide();
-  renderInspector();
-  syncPresentationToolbar();
-  updateUndoButtons();
-  schedulePresentationSave();
+  if (ps.rendering) {
+    ps.renderQueued = true;
+    return;
+  }
+  ps.rendering = true;
+  ps.renderGeneration += 1;
+  try {
+    if (!currentSlide()) ps.data.currentSlideId = ps.data.slides[0]?.id;
+    renderSlideList();
+    renderCurrentSlide();
+    renderInspector();
+    syncPresentationToolbar();
+    updateUndoButtons();
+    schedulePresentationSave();
+  } finally {
+    ps.rendering = false;
+    if (ps.renderQueued) {
+      ps.renderQueued = false;
+      requestAnimationFrame(renderPresentationStudio);
+    }
+  }
 }
 
 function renderSlideList() {
@@ -501,7 +557,12 @@ function renderSlideInto(slide, canvas, options = {}) {
     page.textContent = options.pageNumber;
     canvas.appendChild(page);
   }
-  requestAnimationFrame(() => renderSlideCharts(canvas, slide, options.chartBucket || []));
+  const generation = ps.renderGeneration;
+  requestAnimationFrame(() => {
+    if (options.interactive && generation !== ps.renderGeneration) return;
+    if (!canvas.isConnected) return;
+    renderSlideCharts(canvas, slide, options.chartBucket || []);
+  });
 }
 
 function createElementNode(element, slide, options) {

@@ -237,3 +237,11 @@ The final Phase 1 interface pass adds a consistent Civentraq design system acros
 - `PHASE-1-READINESS.md`
 
 The prototype remains a browser-only Phase 1 application. Authentication, a central database, cloud file storage, cross-device collaboration, and server-side access controls belong to Phase 2.
+
+## Story Studio interface update
+
+The presentation editor now uses Civentraq's own guided **Story Studio** layout. A Storyline panel manages slides, the central stage provides a large uncluttered canvas, the bottom Add dock inserts report content, and Smart controls expose only the relevant settings for the current selection. Existing presentation, governance, sharing, and export functions remain connected.
+
+## Presentation Studio freeze fix
+
+The Story Studio now uses one interface and one guarded opening/render cycle. The older PowerPoint-style UI layer is no longer loaded because running both interface layers caused duplicate DOM work and could freeze the browser. See `PRESENTATION-FREEZE-FIX.md`.

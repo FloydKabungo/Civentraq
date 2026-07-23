@@ -140,10 +140,35 @@
     window.scrollTo(0, 0);
   }
 
+  let workspaceOpenToken = 0;
   function openWorkspace(view = "overview") {
+    const token = ++workspaceOpenToken;
     document.body.classList.remove("home-mode");
     const button = document.querySelector(`.nav-link[data-view="${view}"]`) || document.querySelector('.nav-link[data-view="overview"]');
-    if (button && typeof switchView === "function") switchView(button.dataset.view, button);
+    if (!button) return;
+
+    // Trigger the normal navigation once. The presentation engine owns its own
+    // render cycle; rendering the full dashboard and the deck at the same time
+    // caused the browser to lock up on some machines.
+    button.click();
+
+    if (button.dataset.view === "presentation") {
+      document.body.classList.add("presentation-opening");
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (token !== workspaceOpenToken) return;
+        try {
+          window.CiventraqStoryStudio?.activate?.();
+          if (typeof fitCanvasToWorkspace === "function") fitCanvasToWorkspace();
+        } catch (error) {
+          console.error("Presentation Studio could not finish opening", error);
+          window.CiventraqStoryStudio?.showError?.("Presentation Studio could not open. Reload the page and try again.");
+        } finally {
+          document.body.classList.remove("presentation-opening");
+        }
+      }));
+      return;
+    }
+
     if (typeof renderAll === "function") renderAll();
   }
 
