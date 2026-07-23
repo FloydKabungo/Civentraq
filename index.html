@@ -9,6 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="workspace-home.css" />
+  <link rel="stylesheet" href="presentation-studio.css" />
+  <link rel="stylesheet" href="enterprise-features.css" />
+  <link rel="stylesheet" href="presentation-powerpoint-ui.css" />
+  <link rel="stylesheet" href="phase1-polish.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@4.0.1/dist/pptxgen.bundle.js" defer></script>
@@ -16,8 +21,190 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="presentation-studio.js" defer></script>
+  <script src="enterprise-features.js" defer></script>
+  <script src="presentation-powerpoint-ui.js" defer></script>
+  <script src="workspace-home.js" defer></script>
+  <script src="phase1-polish.js" defer></script>
 </head>
-<body>
+<body class="home-mode">
+  <section class="start-hub" id="startHub" aria-label="Civentraq home">
+    <aside class="start-sidebar">
+      <button class="start-brand" id="startBrand" type="button" aria-label="Civentraq home">
+        <span class="start-brand-mark"><span></span><span></span><span></span></span>
+        <span><strong>Civentraq</strong><small>Project Intelligence</small></span>
+      </button>
+
+      <nav class="start-nav" aria-label="Home navigation">
+        <button class="start-nav-link active" type="button" data-start-route="home"><span>⌂</span>Home</button>
+        <button class="start-nav-link" type="button" data-start-route="projects"><span>▱</span>Projects</button>
+        <button class="start-nav-link" type="button" data-start-route="datasets"><span>◫</span>Datasets</button>
+        <button class="start-nav-link" type="button" data-start-route="reports"><span>▥</span>Reports</button>
+        <button class="start-nav-link" type="button" data-start-route="presentation"><span>▣</span>Presentations</button>
+        <button class="start-nav-link" type="button" data-start-route="shared"><span>♧</span>Shared</button>
+      </nav>
+
+      <button class="start-sidebar-settings" type="button" data-start-route="settings"><span>⚙</span>Settings</button>
+
+      <article class="start-side-note">
+        <div class="side-note-art" aria-hidden="true"><span></span><span></span><span></span></div>
+        <strong>Bring clarity to every project.</strong>
+        <p>Move from raw data to client-ready decisions in one workspace.</p>
+        <button type="button" data-start-action="tour">Take a quick tour →</button>
+      </article>
+    </aside>
+
+    <main class="start-main">
+      <header class="start-topbar">
+        <label class="start-search"><span>⌕</span><input id="startSearch" type="search" placeholder="Search projects, datasets, reports..." autocomplete="off" /><kbd>Ctrl K</kbd></label>
+        <div class="start-top-actions">
+          <button type="button" class="start-icon-button" aria-label="Help">?</button>
+          <button type="button" class="start-icon-button" aria-label="Notifications">♢</button>
+          <button type="button" class="start-profile">
+            <span class="start-avatar">FK</span>
+            <span><strong>Floyd Kabungo</strong><small>Civentraq Admin</small></span>
+            <span>⌄</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="start-scroll">
+        <section class="start-hero">
+          <div class="start-hero-copy">
+            <p class="start-welcome">Welcome back, Floyd <span>✦</span></p>
+            <h1>Turn project data into clarity and confidence.</h1>
+            <p class="start-hero-description">Create projects, connect datasets, build reports, and prepare presentations in one intelligent workspace.</p>
+          </div>
+          <div class="start-hero-art" aria-hidden="true">
+            <div class="hero-chart-line"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="hero-donut"><span></span></div>
+            <div class="industrial-skyline">
+              <span class="tower t1"></span><span class="tower t2"></span><span class="tower t3"></span>
+              <span class="plant p1"></span><span class="plant p2"></span><span class="plant p3"></span>
+              <span class="crane"><i></i></span>
+            </div>
+          </div>
+          <div class="start-quick-actions">
+            <button class="quick-action" type="button" data-start-action="new-project"><span class="quick-icon violet">＋</span><span><strong>New project</strong><small>Start a project from scratch</small></span><b>›</b></button>
+            <button class="quick-action" type="button" data-start-action="import"><span class="quick-icon teal">⇧</span><span><strong>Import dataset</strong><small>Upload Excel, CSV, or project files</small></span><b>›</b></button>
+            <button class="quick-action" type="button" data-start-action="template"><span class="quick-icon orange">▤</span><span><strong>Use template</strong><small>Choose a built-in report setup</small></span><b>›</b></button>
+            <button class="quick-action" type="button" data-start-action="recent"><span class="quick-icon blue">▱</span><span><strong>Open recent project</strong><small>Continue where you left off</small></span><b>›</b></button>
+          </div>
+        </section>
+
+        <section class="start-content-grid" id="startHomeContent">
+          <article class="start-section recent-section" id="recentProjectsSection">
+            <div class="start-section-heading"><div><p>Workspace</p><h2>Recent projects</h2></div><button type="button" data-start-route="projects">View all projects →</button></div>
+            <div class="recent-project-grid" id="homeRecentProjects"></div>
+          </article>
+
+          <article class="start-section template-section">
+            <div class="start-section-heading"><div><p>Ready to use</p><h2>Popular templates</h2></div><button type="button" data-start-action="template">View all templates →</button></div>
+            <div class="home-template-grid" id="homeTemplateGrid">
+              <button class="home-template-card" type="button" data-home-template="executive"><span class="template-preview executive"><i></i><i></i><i></i><i></i></span><strong>Executive summary</strong><small>One-page project overview</small></button>
+              <button class="home-template-card" type="button" data-home-template="schedule"><span class="template-preview schedule"><i></i><i></i><i></i><i></i></span><strong>Schedule performance</strong><small>Milestones, progress, and trends</small></button>
+              <button class="home-template-card" type="button" data-home-template="cost"><span class="template-preview cost"><i></i><i></i><i></i><i></i></span><strong>Cost &amp; cash flow</strong><small>Financial position and forecast</small></button>
+            </div>
+          </article>
+
+          <aside class="start-section tips-section">
+            <div class="start-section-heading"><div><p>Work smarter</p><h2>Insights &amp; tips</h2></div></div>
+            <div class="tip-item"><span class="tip-icon violet">↗</span><div><strong>Track performance</strong><p>Monitor KPIs and trends across all projects.</p></div></div>
+            <div class="tip-item"><span class="tip-icon teal">⌁</span><div><strong>Data quality matters</strong><p>Clean information creates more reliable insights.</p></div></div>
+            <div class="tip-item"><span class="tip-icon orange">⌯</span><div><strong>Present with confidence</strong><p>Build client-ready reports that tell the right story.</p></div></div>
+          </aside>
+        </section>
+
+        <section class="start-project-library" id="startProjectLibrary" hidden>
+          <div class="library-heading"><div><p class="start-welcome">Your workspace</p><h1>All projects</h1><p>Open an existing project or create a new one without entering a dashboard first.</p></div><button class="start-primary-button" type="button" data-start-action="new-project">＋ New project</button></div>
+          <div class="library-toolbar"><label><span>⌕</span><input id="projectLibrarySearch" type="search" placeholder="Search projects or clients" /></label><select id="projectLibraryFilter"><option value="all">All statuses</option><option value="Planning">Planning</option><option value="Active">Active</option><option value="Complete">Complete</option></select></div>
+          <div class="project-library-grid" id="projectLibraryGrid"></div>
+        </section>
+
+        <footer class="start-trust-strip">
+          <div><span class="trust-shield">◆</span><span><strong>Your projects. Your data. Your control.</strong><small>Built for construction, engineering, energy, and refinery reporting teams.</small></span></div>
+          <div class="trust-points"><span><b>◇</b>Structured workspaces</span><span><b>▣</b>Presentation-ready</span><span><b>⌁</b>Project intelligence</span></div>
+        </footer>
+      </div>
+    </main>
+  </section>
+
+  <section class="project-wizard" id="projectWizard" aria-hidden="true">
+    <div class="wizard-shell">
+      <header class="wizard-header">
+        <button class="wizard-brand" type="button" data-wizard-close><span class="start-brand-mark"><span></span><span></span><span></span></span><strong>Civentraq</strong></button>
+        <div class="wizard-save-state"><span></span>New project setup</div>
+        <button class="wizard-close" type="button" data-wizard-close aria-label="Close project setup">×</button>
+      </header>
+      <div class="wizard-body">
+        <aside class="wizard-steps">
+          <p>Project setup</p>
+          <button class="wizard-step active" type="button" data-wizard-step="1"><span>1</span><strong>Project details</strong><small>Name, client, location</small></button>
+          <button class="wizard-step" type="button" data-wizard-step="2"><span>2</span><strong>Data setup</strong><small>Choose how to begin</small></button>
+          <button class="wizard-step" type="button" data-wizard-step="3"><span>3</span><strong>Workspace template</strong><small>Pick a reporting style</small></button>
+          <button class="wizard-step" type="button" data-wizard-step="4"><span>4</span><strong>Review &amp; create</strong><small>Confirm the workspace</small></button>
+          <div class="wizard-help"><span>?</span><div><strong>Need help?</strong><small>You can change every setting later.</small></div></div>
+        </aside>
+
+        <main class="wizard-stage">
+          <form id="homeProjectForm">
+            <section class="wizard-panel active" data-wizard-panel="1">
+              <p class="wizard-kicker">Step 1 of 4</p><h1>Tell us about the project.</h1><p class="wizard-intro">This information is used across dashboards, reports, and presentation title pages.</p>
+              <div class="wizard-form-grid">
+                <label class="wide">Project name<input id="homeProjectName" required placeholder="Cape Industrial Refinery Maintenance Project" maxlength="100" /></label>
+                <label>Client / company<input id="homeProjectClient" required placeholder="Cape Industrial Energy" maxlength="80" /></label>
+                <label>Project location<input id="homeProjectLocation" required placeholder="Cape Town, South Africa" maxlength="80" /></label>
+                <label>Approved budget (R)<input id="homeProjectBudget" type="number" min="0" step="1000" required placeholder="10000000" /></label>
+                <label>Project status<select id="homeProjectStatus"><option>Planning</option><option>Active</option><option>On hold</option></select></label>
+                <label>Start date<input id="homeProjectStart" type="date" required /></label>
+                <label>Target completion<input id="homeProjectEnd" type="date" required /></label>
+                <label class="wide">Project description<textarea id="homeProjectDescription" rows="4" placeholder="Describe the project scope, work packages, and reporting requirements."></textarea></label>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-wizard-panel="2">
+              <p class="wizard-kicker">Step 2 of 4</p><h1>How would you like to start?</h1><p class="wizard-intro">Choose a clean workspace, use sample data, or import your own file after creation.</p>
+              <div class="wizard-choice-grid" id="wizardDataChoices">
+                <button class="wizard-choice selected" type="button" data-data-choice="sample"><span>✦</span><strong>Use guided sample data</strong><small>Explore the workspace with realistic project information.</small><b>Recommended</b></button>
+                <button class="wizard-choice" type="button" data-data-choice="blank"><span>□</span><strong>Start with a blank workspace</strong><small>Create the project now and connect datasets later.</small></button>
+                <button class="wizard-choice" type="button" data-data-choice="import"><span>⇧</span><strong>Import after creation</strong><small>Open the upload flow as soon as the workspace is ready.</small></button>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-wizard-panel="3">
+              <p class="wizard-kicker">Step 3 of 4</p><h1>Choose a workspace template.</h1><p class="wizard-intro">Templates set the initial dashboard emphasis, report defaults, and presentation theme.</p>
+              <div class="wizard-template-grid" id="wizardTemplateChoices">
+                <button class="wizard-template selected" type="button" data-template-choice="executive"><span class="template-preview executive"><i></i><i></i><i></i><i></i></span><strong>Executive control</strong><small>Balanced project health, cost, schedule, and risk.</small></button>
+                <button class="wizard-template" type="button" data-template-choice="cost"><span class="template-preview cost"><i></i><i></i><i></i><i></i></span><strong>Commercial focus</strong><small>Budget, commitments, cash flow, and forecast.</small></button>
+                <button class="wizard-template" type="button" data-template-choice="schedule"><span class="template-preview schedule"><i></i><i></i><i></i><i></i></span><strong>Delivery focus</strong><small>Progress, milestones, look-ahead, and recovery.</small></button>
+                <button class="wizard-template" type="button" data-template-choice="refinery"><span class="template-preview refinery"><i></i><i></i><i></i><i></i></span><strong>Energy &amp; refinery</strong><small>Turnaround, HSE, inspection, and operational readiness.</small></button>
+              </div>
+            </section>
+
+            <section class="wizard-panel" data-wizard-panel="4">
+              <p class="wizard-kicker">Step 4 of 4</p><h1>Your workspace is ready to create.</h1><p class="wizard-intro">Review the setup below. Civentraq will open the project only after you confirm.</p>
+              <div class="wizard-review-card">
+                <div class="review-cover"><span class="review-logo">CV</span><div><small>NEW PROJECT</small><strong id="reviewProjectName">Untitled project</strong><p id="reviewProjectMeta">Client · Location</p></div></div>
+                <dl><div><dt>Budget</dt><dd id="reviewProjectBudget">R0</dd></div><div><dt>Period</dt><dd id="reviewProjectPeriod">Not set</dd></div><div><dt>Data setup</dt><dd id="reviewDataChoice">Guided sample data</dd></div><div><dt>Template</dt><dd id="reviewTemplateChoice">Executive control</dd></div></dl>
+              </div>
+              <div class="wizard-ready-note"><span>✓</span><div><strong>Nothing is published yet.</strong><p>The new workspace is stored locally in this browser and can be edited at any time.</p></div></div>
+            </section>
+          </form>
+        </main>
+
+        <aside class="wizard-preview">
+          <div class="wizard-preview-top"><span>Live preview</span><small id="wizardPreviewTemplate">Executive control</small></div>
+          <div class="wizard-preview-canvas">
+            <div class="preview-mini-sidebar"><i></i><i></i><i></i><i></i></div>
+            <div class="preview-mini-main"><span class="preview-title"></span><div class="preview-kpis"><i></i><i></i><i></i></div><div class="preview-chart"><b></b><b></b><b></b><b></b><b></b></div><div class="preview-row"><i></i><i></i></div></div>
+          </div>
+          <p id="wizardPreviewDescription">A balanced workspace for management reporting and client presentations.</p>
+        </aside>
+      </div>
+      <footer class="wizard-footer"><button type="button" class="wizard-secondary" id="wizardBack" disabled>Back</button><span id="wizardProgressText">1 of 4</span><button type="button" class="wizard-primary" id="wizardNext">Next →</button></footer>
+    </div>
+  </section>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="#" aria-label="Civentraq dashboard">
@@ -41,8 +228,14 @@
         <button class="nav-link" data-view="imports">
           <span class="nav-icon">⇧</span><span>Data imports</span>
         </button>
+        <button class="nav-link" data-view="datasets">
+          <span class="nav-icon">▦</span><span>Datasets</span>
+        </button>
         <button class="nav-link" data-view="reports">
           <span class="nav-icon">▧</span><span>Reports</span>
+        </button>
+        <button class="nav-link" data-view="presentation">
+          <span class="nav-icon">▶</span><span>Presentation studio</span>
         </button>
       </nav>
 
@@ -50,7 +243,7 @@
         <div class="company-card">
           <div class="company-avatar" id="companyAvatar">AA</div>
           <div>
-            <strong id="companyName">Alta Autocon</strong>
+            <strong id="companyName">Demo Engineering Contractor</strong>
             <small id="companySubtitle">Engineering workspace</small>
           </div>
         </div>
@@ -65,7 +258,7 @@
         <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
         <div class="project-heading">
           <div class="eyebrow">Active project</div>
-          <h1 id="projectTitle">Eskom Refinery Maintenance Project</h1>
+          <h1 id="projectTitle">Cape Industrial Refinery Maintenance Project</h1>
           <p id="projectMeta">Cape Town · 01 February 2026 – 30 November 2026</p>
         </div>
         <div class="topbar-actions">
@@ -129,9 +322,16 @@
           <article class="panel chart-panel" data-custom-panel="cost">
             <div class="panel-heading">
               <div><h3>Cost performance</h3><p>Cumulative planned versus actual expenditure</p></div>
-              <span class="status-pill" id="costStatus">On budget</span>
+              <div class="panel-heading-actions">
+                <span class="status-pill" id="costStatus">On budget</span>
+                <button class="visual-picker-trigger" type="button" data-open-chart-picker="cost" aria-label="Choose cost visual">
+                  <span class="visual-picker-trigger-icon" data-current-visual-icon="cost" aria-hidden="true"></span>
+                  <span id="costChartTypeLabel">Line chart</span><span class="visual-picker-chevron">⌄</span>
+                </button>
+                <select id="costChartType" class="sr-only" aria-label="Cost chart type"></select>
+              </div>
             </div>
-            <div class="chart-wrap"><canvas id="costChart"></canvas></div>
+            <div class="chart-wrap visual-host" id="costVisualHost"><canvas id="costChart"></canvas></div>
           </article>
 
           <article class="panel insight-panel" data-custom-panel="insight">
@@ -173,15 +373,25 @@
           <article class="panel chart-panel" data-custom-panel="progress">
             <div class="panel-heading">
               <div><h3>Schedule performance</h3><p>Planned versus actual completion</p></div>
+              <button class="visual-picker-trigger" type="button" data-open-chart-picker="progress" aria-label="Choose schedule visual">
+                <span class="visual-picker-trigger-icon" data-current-visual-icon="progress" aria-hidden="true"></span>
+                <span id="progressChartTypeLabel">Clustered column chart</span><span class="visual-picker-chevron">⌄</span>
+              </button>
+              <select id="progressChartType" class="sr-only" aria-label="Schedule chart type"></select>
             </div>
-            <div class="chart-wrap"><canvas id="progressChart"></canvas></div>
+            <div class="chart-wrap visual-host" id="progressVisualHost"><canvas id="progressChart"></canvas></div>
           </article>
 
           <article class="panel chart-panel" data-custom-panel="category">
             <div class="panel-heading">
               <div><h3>Spend by category</h3><p>Actual cost distribution</p></div>
+              <button class="visual-picker-trigger" type="button" data-open-chart-picker="category" aria-label="Choose spend visual">
+                <span class="visual-picker-trigger-icon" data-current-visual-icon="category" aria-hidden="true"></span>
+                <span id="categoryChartTypeLabel">Donut chart</span><span class="visual-picker-chevron">⌄</span>
+              </button>
+              <select id="categoryChartType" class="sr-only" aria-label="Spend chart type"></select>
             </div>
-            <div class="chart-wrap doughnut"><canvas id="categoryChart"></canvas></div>
+            <div class="chart-wrap doughnut visual-host" id="categoryVisualHost"><canvas id="categoryChart"></canvas></div>
           </article>
         </div>
 
@@ -250,30 +460,308 @@
         </article>
       </section>
 
+      <section class="view" id="datasetsView">
+        <div class="section-heading datasets-heading">
+          <div>
+            <p class="eyebrow">Data workspace</p>
+            <h2>Datasets</h2>
+            <p class="section-description">Connect the information needed for dashboards and specialist construction, refinery, HSE, quality, commercial, and handover reports.</p>
+          </div>
+          <div class="dataset-heading-actions">
+            <button class="button secondary" id="downloadAllTemplatesButton">Download template pack</button>
+            <button class="button primary" id="addDatasetButton">Add dataset</button>
+          </div>
+        </div>
+
+        <div class="dataset-summary-grid">
+          <article class="dataset-summary-card"><span>▦</span><div><strong id="datasetTotalKpi">0</strong><small>Dataset templates</small></div></article>
+          <article class="dataset-summary-card"><span>↗</span><div><strong id="datasetConnectedKpi">0</strong><small>Connected datasets</small></div></article>
+          <article class="dataset-summary-card"><span>≡</span><div><strong id="datasetRowsKpi">0</strong><small>Available rows</small></div></article>
+          <article class="dataset-summary-card"><span>✓</span><div><strong id="datasetReportsKpi">0</strong><small>Reports with data</small></div></article>
+        </div>
+
+        <div class="dataset-toolbar">
+          <label class="dataset-search-box"><span aria-hidden="true">⌕</span><input id="datasetSearch" type="search" placeholder="Search datasets, fields, or reports" autocomplete="off" /></label>
+          <div class="dataset-filter-row" id="datasetCategoryFilters" role="group" aria-label="Filter datasets by category"></div>
+          <span class="dataset-count" id="datasetCount">0 datasets</span>
+        </div>
+
+        <div class="dataset-guidance">
+          <span>i</span>
+          <p><strong>How it works:</strong> upload Excel or CSV files, preview the rows, and connect them to a dataset. Project performance data updates the main dashboard; specialist datasets replace demo registers inside matching reports.</p>
+        </div>
+
+        <div class="dataset-grid" id="datasetGrid"></div>
+      </section>
+
       <section class="view" id="reportsView">
-        <div class="section-heading">
-          <div><p class="eyebrow">Client reporting</p><h2>Reports</h2></div>
-          <button class="button primary" id="reportsExportButton">Export report</button>
+        <div class="section-heading reports-heading">
+          <div>
+            <p class="eyebrow">Client reporting</p>
+            <h2>Industry report library</h2>
+            <p class="section-description">Generate project, commercial, HSE, quality, engineering, refinery, and handover reports from one workspace.</p>
+          </div>
+          <button class="button primary" id="reportsExportButton">Export complete pack</button>
         </div>
-        <div class="report-grid">
-          <article class="report-card" data-report-card="executive">
-            <span class="report-icon">▥</span><h3>Executive progress report</h3>
-            <p>Budget, programme, key statistics, risks, and management commentary.</p>
-            <button class="button secondary report-generate" data-report-type="executive">Choose format</button>
-          </article>
-          <article class="report-card" data-report-card="cost">
-            <span class="report-icon">R</span><h3>Cost performance report</h3>
-            <p>Planned cost, actual expenditure, remaining budget, and category analysis.</p>
-            <button class="button secondary report-generate" data-report-type="cost">Choose format</button>
-          </article>
-          <article class="report-card" data-report-card="schedule">
-            <span class="report-icon">◷</span><h3>Schedule variance report</h3>
-            <p>Planned versus actual progress with delayed work packages and milestones.</p>
-            <button class="button secondary report-generate" data-report-type="schedule">Choose format</button>
-          </article>
+
+        <div class="report-library-toolbar" aria-label="Report library controls">
+          <label class="report-search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="reportSearch" type="search" placeholder="Search reports, registers, or categories" autocomplete="off" />
+          </label>
+          <div class="report-filter-row" id="reportCategoryFilters" role="group" aria-label="Filter reports by category"></div>
+          <span class="report-count" id="reportCount">0 reports</span>
         </div>
+
+        <div class="report-library-note">
+          <span class="report-library-note-icon">i</span>
+          <p><strong>Dataset-powered reporting:</strong> project KPIs use the active project-performance dataset. Specialist reports automatically use connected HSE, QA/QC, procurement, document-control, refinery, and close-out datasets; demo registers remain only where no dataset has been connected.</p>
+        </div>
+
+        <div class="report-library" id="reportLibrary"></div>
+      </section>
+
+      <section class="view presentation-view" id="presentationView">
+        <header class="ps-appbar" aria-label="Presentation Studio toolbar">
+          <div class="ps-appbar-left">
+            <button class="ps-appbar-button ps-back-button" id="psBackButton" type="button" title="Back to dashboard" aria-label="Back to dashboard">←</button>
+            <div class="ps-product-mark" aria-hidden="true">CV</div>
+            <div class="ps-product-title">
+              <strong>Civentraq Presentation Studio</strong>
+              <small id="psDeckTitle">Project presentation</small>
+            </div>
+          </div>
+          <div class="ps-appbar-status"><span class="ps-live-dot"></span><span>Saved locally</span></div>
+          <div class="ps-appbar-actions">
+            <button class="ps-appbar-button text" id="psToggleSlidesButton" type="button" aria-pressed="true" title="Show or hide slide panel">☰ <span>Slides</span></button>
+            <button class="ps-appbar-button text" id="psFitCanvasButton" type="button" title="Fit slide to workspace">⛶ <span>Fit</span></button>
+            <button class="ps-appbar-button text" id="psToggleInspectorButton" type="button" aria-pressed="true" title="Show or hide properties panel">◫ <span>Properties</span></button>
+            <span class="ps-appbar-separator" aria-hidden="true"></span>
+            <button class="ps-appbar-button" id="psNewDeckButton" type="button">New deck</button>
+            <button class="ps-appbar-button" id="psPresentButton" type="button">Present</button>
+            <button class="ps-appbar-button primary" id="psExportButton" type="button">Export</button>
+          </div>
+        </header>
+
+        <div class="ps-studio" id="psStudio">
+          <aside class="ps-left-panel">
+            <div class="ps-panel-heading">
+              <div><strong>Slides</strong><small id="psSlideCount">0 slides</small></div>
+              <button class="ps-icon-button" id="psAddSlideButton" type="button" title="Add slide">＋</button>
+            </div>
+            <div class="ps-slide-list" id="psSlideList" aria-label="Presentation slides"></div>
+            <div class="ps-left-section">
+              <div class="ps-section-label">Slide templates</div>
+              <div class="ps-template-grid" id="psTemplateGrid">
+                <button type="button" data-ps-template="title"><span class="ps-template-mini title"></span><b>Title</b></button>
+                <button type="button" data-ps-template="executive"><span class="ps-template-mini executive"></span><b>Executive</b></button>
+                <button type="button" data-ps-template="chart"><span class="ps-template-mini chart"></span><b>Chart focus</b></button>
+                <button type="button" data-ps-template="comparison"><span class="ps-template-mini comparison"></span><b>Comparison</b></button>
+                <button type="button" data-ps-template="photos"><span class="ps-template-mini photos"></span><b>Photo report</b></button>
+                <button type="button" data-ps-template="blank"><span class="ps-template-mini blank"></span><b>Blank</b></button>
+              </div>
+            </div>
+            <div class="ps-left-section ps-elements-section">
+              <div class="ps-section-label">Drag elements onto the slide</div>
+              <div class="ps-element-palette" id="psElementPalette">
+                <button draggable="true" data-ps-element="title"><span>T</span>Heading</button>
+                <button draggable="true" data-ps-element="text"><span>¶</span>Text</button>
+                <button draggable="true" data-ps-element="ai_summary"><span>✦</span>AI summary</button>
+                <button draggable="true" data-ps-element="kpi"><span>42</span>KPI card</button>
+                <button draggable="true" data-ps-element="chart"><span>▥</span>Chart</button>
+                <button draggable="true" data-ps-element="table"><span>▦</span>Table</button>
+                <button draggable="true" data-ps-element="photo"><span>▧</span>Photo</button>
+                <button draggable="true" data-ps-element="comparison"><span>↔</span>Comparison</button>
+                <button draggable="true" data-ps-element="progress"><span>◫</span>Progress</button>
+                <button draggable="true" data-ps-element="annotation"><span>!</span>Callout</button>
+              </div>
+            </div>
+          </aside>
+
+          <section class="ps-editor-column">
+            <div class="ps-toolbar">
+              <div class="ps-toolbar-group">
+                <button class="ps-toolbar-button" id="psUndoButton" type="button" title="Undo">↶</button>
+                <button class="ps-toolbar-button" id="psRedoButton" type="button" title="Redo">↷</button>
+                <span class="ps-toolbar-divider"></span>
+                <button class="ps-toolbar-button text" id="psDuplicateSlideButton" type="button">Duplicate slide</button>
+                <button class="ps-toolbar-button text danger" id="psDeleteSlideButton" type="button">Delete</button>
+              </div>
+              <div class="ps-toolbar-group">
+                <label class="ps-toolbar-select">Theme<select id="psThemeSelect">
+                  <option value="energy">Energy &amp; refinery</option><option value="executive">Executive dark</option><option value="construction">Construction</option><option value="minimal">Minimal white</option><option value="safety">Safety report</option><option value="client">Client branded</option>
+                </select></label>
+                <label class="ps-toolbar-select">Canvas<select id="psRatioSelect"><option value="16:9">Widescreen 16:9</option><option value="4:3">Standard 4:3</option><option value="a4">A4 landscape</option><option value="a4p">A4 portrait</option></select></label>
+                <label class="ps-zoom-control">Zoom<input id="psZoomRange" type="range" min="45" max="125" value="100" /><output id="psZoomValue">76%</output></label>
+              </div>
+            </div>
+
+            <div class="ps-canvas-workspace" id="psCanvasWorkspace">
+              <div class="ps-canvas-shell" id="psCanvasShell">
+                <div class="ps-slide-canvas" id="psSlideCanvas" tabindex="0" aria-label="Editable presentation slide"></div>
+              </div>
+            </div>
+
+            <div class="ps-notes-bar">
+              <label><span>Speaker notes</span><textarea id="psSpeakerNotes" rows="2" placeholder="Add private notes for the presenter..."></textarea></label>
+              <span id="psSaveStatus">Saved locally</span>
+            </div>
+          </section>
+
+          <aside class="ps-inspector" id="psInspector">
+            <div class="ps-inspector-tabs" role="tablist">
+              <button class="active" type="button" data-ps-inspector-tab="element">Element</button>
+              <button type="button" data-ps-inspector-tab="design">Design</button>
+              <button type="button" data-ps-inspector-tab="data">Data</button>
+            </div>
+
+            <div class="ps-inspector-panel active" data-ps-inspector-panel="element">
+              <div class="ps-empty-selection" id="psEmptySelection"><span>◇</span><strong>Select an element</strong><p>Click an item on the slide or drag a new item from the left panel.</p></div>
+              <div id="psElementInspector" hidden>
+                <div class="ps-inspector-heading"><div><strong id="psSelectedType">Element</strong><small id="psSelectedId">—</small></div><div><button id="psDuplicateElementButton" class="ps-icon-button" type="button" title="Duplicate">⧉</button><button id="psDeleteElementButton" class="ps-icon-button danger" type="button" title="Delete">×</button></div></div>
+                <div class="ps-control-group" id="psTextControls">
+                  <label>Text<textarea id="psElementText" rows="4"></textarea></label>
+                  <div class="ps-control-row"><label>Font size<input id="psFontSize" type="number" min="8" max="72" /></label><label>Align<select id="psTextAlign"><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select></label></div>
+                  <label class="ps-toggle-line"><span>Bold</span><input id="psBoldToggle" type="checkbox" /></label>
+                </div>
+                <div class="ps-control-group" id="psKpiControls" hidden>
+                  <label>KPI data<select id="psKpiMetric"><option value="budget">Approved budget</option><option value="spent">Actual spend</option><option value="remaining">Remaining budget</option><option value="progress">Actual progress</option><option value="variance">Schedule variance</option><option value="days">Days remaining</option><option value="labour">Labour hours</option><option value="health">Project health</option></select></label>
+                  <label>Label<input id="psKpiLabel" /></label>
+                </div>
+                <div class="ps-control-group" id="psChartControls" hidden>
+                  <label>Chart title<input id="psChartTitle" /></label>
+                  <div class="ps-control-row"><label>Type<select id="psChartType"><option value="line">Line</option><option value="bar">Column</option><option value="horizontalBar">Horizontal bar</option><option value="doughnut">Donut</option><option value="pie">Pie</option><option value="radar">Radar</option><option value="polarArea">Polar area</option></select></label><label>Data<select id="psChartSource"><option value="cost">Cost performance</option><option value="progress">Schedule progress</option><option value="category">Spend by category</option><option value="labour">Labour trend</option><option value="risk">Risk profile</option></select></label></div>
+                  <div class="ps-control-row"><label>Primary<input id="psChartPrimary" type="color" /></label><label>Secondary<input id="psChartSecondary" type="color" /></label></div>
+                  <label class="ps-toggle-line"><span>Show legend</span><input id="psChartLegend" type="checkbox" /></label>
+                  <label class="ps-toggle-line"><span>Show gridlines</span><input id="psChartGrid" type="checkbox" /></label>
+                </div>
+                <div class="ps-control-group" id="psPhotoControls" hidden>
+                  <button class="button secondary full" id="psReplacePhotoButton" type="button">Choose / replace photo</button>
+                  <label>Caption<input id="psPhotoCaption" placeholder="Work completed, location, and date" /></label>
+                  <label>Image fit<select id="psPhotoFit"><option value="cover">Fill frame</option><option value="contain">Fit entire image</option></select></label>
+                </div>
+                <div class="ps-control-group" id="psAiControls" hidden>
+                  <div class="ps-control-row"><label>Tone<select id="psAiTone"><option value="executive">Executive</option><option value="client">Client-friendly</option><option value="technical">Technical</option><option value="concise">Concise</option></select></label><label>Length<select id="psAiLength"><option value="short">Short</option><option value="medium">Medium</option><option value="detailed">Detailed</option></select></label></div>
+                  <button class="button secondary full" id="psRegenerateAiButton" type="button">Regenerate summary</button>
+                </div>
+                <div class="ps-control-group" id="psComparisonControls" hidden>
+                  <label>Comparison title<input id="psComparisonTitle" /></label>
+                  <div class="ps-control-row"><label>Previous label<input id="psPreviousLabel" /></label><label>Current label<input id="psCurrentLabel" /></label></div>
+                  <div class="ps-control-row"><label>Previous value<input id="psPreviousValue" type="number" step="0.1" /></label><label>Current value<input id="psCurrentValue" type="number" step="0.1" /></label></div>
+                  <label>Unit<input id="psComparisonUnit" placeholder="%, R, hours" /></label>
+                </div>
+                <div class="ps-control-group" id="psAnnotationControls" hidden>
+                  <label>Callout style<select id="psAnnotationStyle"><option value="info">Information</option><option value="warning">Warning</option><option value="success">Success</option><option value="decision">Decision required</option></select></label>
+                </div>
+                <div class="ps-control-group">
+                  <div class="ps-control-row"><label>Background<input id="psElementBackground" type="color" /></label><label>Text colour<input id="psElementColor" type="color" /></label></div>
+                  <div class="ps-control-row"><label>Border colour<input id="psElementBorder" type="color" /></label><label>Corner radius<input id="psElementRadius" type="number" min="0" max="40" /></label></div>
+                </div>
+                <div class="ps-control-group compact-grid">
+                  <label>X<input id="psElementX" type="number" min="0" max="100" step="0.1" /></label><label>Y<input id="psElementY" type="number" min="0" max="100" step="0.1" /></label><label>Width<input id="psElementW" type="number" min="5" max="100" step="0.1" /></label><label>Height<input id="psElementH" type="number" min="4" max="100" step="0.1" /></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="ps-inspector-panel" data-ps-inspector-panel="design">
+              <div class="ps-inspector-title"><strong>Professional themes</strong><small>Apply a consistent presentation style.</small></div>
+              <div class="ps-theme-gallery" id="psThemeGallery">
+                <button type="button" data-ps-theme="energy"><span class="theme-swatch energy"></span><b>Energy &amp; refinery</b><small>Dark navy + teal</small></button>
+                <button type="button" data-ps-theme="executive"><span class="theme-swatch executive"></span><b>Executive dark</b><small>Boardroom presentation</small></button>
+                <button type="button" data-ps-theme="construction"><span class="theme-swatch construction"></span><b>Construction</b><small>Orange + charcoal</small></button>
+                <button type="button" data-ps-theme="minimal"><span class="theme-swatch minimal"></span><b>Minimal white</b><small>Clean client report</small></button>
+                <button type="button" data-ps-theme="safety"><span class="theme-swatch safety"></span><b>Safety report</b><small>High visibility</small></button>
+                <button type="button" data-ps-theme="client"><span class="theme-swatch client"></span><b>Client branded</b><small>Uses dashboard colours</small></button>
+              </div>
+              <div class="ps-control-group">
+                <label>Slide title<input id="psSlideTitle" /></label>
+                <label>Slide background<input id="psSlideBackground" type="color" /></label>
+                <label class="ps-toggle-line"><span>Hide this slide</span><input id="psSlideHidden" type="checkbox" /></label>
+              </div>
+            </div>
+
+            <div class="ps-inspector-panel" data-ps-inspector-panel="data">
+              <div class="ps-inspector-title"><strong>Comparison reporting</strong><small>Build planned-vs-actual and period-on-period stories.</small></div>
+              <div class="ps-control-group">
+                <label>Comparison metric<select id="psComparisonMetric"><option value="progress">Actual progress</option><option value="spent">Actual spend</option><option value="variance">Schedule variance</option><option value="labour">Labour hours</option><option value="health">Project health score</option></select></label>
+                <div class="ps-control-row"><label>Previous period<input id="psDeckPreviousLabel" value="Last month" /></label><label>Current period<input id="psDeckCurrentLabel" value="This month" /></label></div>
+                <button class="button secondary full" id="psAddComparisonSlideButton" type="button">Create comparison slide</button>
+              </div>
+              <div class="ps-inspector-title"><strong>Annotations</strong><small>Highlight milestones, problems, and decisions.</small></div>
+              <div class="ps-annotation-buttons">
+                <button type="button" data-ps-add-annotation="info">Information</button><button type="button" data-ps-add-annotation="warning">Warning</button><button type="button" data-ps-add-annotation="success">Milestone</button><button type="button" data-ps-add-annotation="decision">Decision required</button>
+              </div>
+              <div class="ps-data-status">
+                <span class="online-dot"></span><div><strong>Live project data connected</strong><small>Slides update from the active Civentraq project dataset.</small></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+        <input id="psPhotoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden />
       </section>
     </main>
+  </div>
+
+  <div class="modal" id="datasetPickerModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-dataset-picker></div>
+    <div class="modal-card extra-large dataset-picker-modal" role="dialog" aria-modal="true" aria-labelledby="datasetPickerTitle">
+      <button class="modal-close" data-close-dataset-picker aria-label="Close">×</button>
+      <div class="modal-header">
+        <p class="eyebrow">Dataset library</p>
+        <h2 id="datasetPickerTitle">Choose a dataset to connect</h2>
+        <p>Select the type of information you want to add. Civentraq will provide the expected fields and link it to the correct reports.</p>
+      </div>
+      <label class="dataset-picker-search"><span aria-hidden="true">⌕</span><input id="datasetPickerSearch" type="search" placeholder="Search dataset templates" autocomplete="off" /></label>
+      <div class="dataset-template-grid" id="datasetTemplateGrid"></div>
+      <div class="modal-actions"><button class="button secondary" type="button" data-close-dataset-picker>Close</button></div>
+    </div>
+  </div>
+
+  <div class="modal" id="datasetDetailModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-dataset-detail></div>
+    <div class="modal-card extra-large dataset-detail-modal" role="dialog" aria-modal="true" aria-labelledby="datasetDetailTitle">
+      <button class="modal-close" data-close-dataset-detail aria-label="Close">×</button>
+      <div class="dataset-detail-header">
+        <div class="dataset-detail-title-wrap"><span class="dataset-detail-icon" id="datasetDetailIcon">▦</span><div><p class="eyebrow" id="datasetDetailCategory">Dataset</p><h2 id="datasetDetailTitle">Dataset preview</h2><p id="datasetDetailDescription"></p></div></div>
+        <span class="dataset-status-badge" id="datasetDetailStatus">Not connected</span>
+      </div>
+      <div class="dataset-detail-stats" id="datasetDetailStats"></div>
+      <div class="dataset-report-links"><strong>Linked reports</strong><div id="datasetDetailReports"></div></div>
+      <div class="dataset-preview-heading"><div><h3>Data preview</h3><p id="datasetDetailPreviewNote">Connect a file to preview rows.</p></div></div>
+      <div class="dataset-preview-table table-scroll" id="datasetDetailTable"></div>
+      <div class="modal-actions dataset-detail-actions">
+        <button class="button danger-ghost" type="button" id="clearDatasetButton">Clear data</button>
+        <div>
+          <button class="button secondary" type="button" id="datasetSampleButton">Use sample data</button>
+          <button class="button secondary" type="button" id="datasetTemplateButton">Download template</button>
+          <button class="button primary" type="button" id="datasetUploadButton">Upload / replace</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="datasetUploadModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-dataset-upload></div>
+    <div class="modal-card large" role="dialog" aria-modal="true" aria-labelledby="datasetUploadTitle">
+      <button class="modal-close" data-close-dataset-upload aria-label="Close">×</button>
+      <div class="modal-header">
+        <p class="eyebrow">Connect dataset</p>
+        <h2 id="datasetUploadTitle">Upload dataset</h2>
+        <p id="datasetUploadDescription">Upload an Excel or CSV file. Civentraq will compare its columns with the expected dataset fields.</p>
+      </div>
+      <label class="drop-zone" id="datasetDropZone">
+        <input type="file" id="datasetFileInput" accept=".xlsx,.xls,.csv" hidden />
+        <span class="upload-icon">⇧</span>
+        <strong>Drop a dataset here or click to browse</strong>
+        <small>XLSX, XLS, or CSV · First worksheet will be used</small>
+      </label>
+      <div id="datasetFilePreview" class="file-preview hidden"></div>
+      <div id="datasetMatchPreview" class="dataset-match-preview hidden"></div>
+      <div class="modal-actions">
+        <button class="button secondary" type="button" data-close-dataset-upload>Cancel</button>
+        <button class="button primary" type="button" id="connectDatasetButton" disabled>Connect dataset</button>
+      </div>
+    </div>
   </div>
 
   <div class="modal" id="importModal" aria-hidden="true">
@@ -376,7 +864,13 @@
         </div>
 
         <div class="settings-panel" data-settings-panel="charts">
-          <div class="settings-section-heading"><div><h3>Chart appearance</h3><p>Adjust the chart line style, colours, legends, gridlines, and motion.</p></div></div>
+          <div class="settings-section-heading"><div><h3>Chart types</h3><p>Choose the best visual for cost trends, schedule performance, and expenditure distribution.</p></div></div>
+          <div class="chart-type-settings-grid">
+            <div class="chart-type-setting"><span class="chart-setting-icon" data-current-visual-icon="cost"></span><span><strong>Cost performance</strong><small>Planned versus actual cumulative spend</small></span><button type="button" class="visual-settings-button" data-open-chart-picker="cost"><span id="customCostChartTypeLabel">Line chart</span><b>Choose visual</b></button><select id="customCostChartType" class="sr-only"></select></div>
+            <div class="chart-type-setting"><span class="chart-setting-icon" data-current-visual-icon="progress"></span><span><strong>Schedule performance</strong><small>Planned versus actual completion</small></span><button type="button" class="visual-settings-button" data-open-chart-picker="progress"><span id="customProgressChartTypeLabel">Clustered column chart</span><b>Choose visual</b></button><select id="customProgressChartType" class="sr-only"></select></div>
+            <div class="chart-type-setting"><span class="chart-setting-icon" data-current-visual-icon="category"></span><span><strong>Spend by category</strong><small>Cost distribution across disciplines</small></span><button type="button" class="visual-settings-button" data-open-chart-picker="category"><span id="customCategoryChartTypeLabel">Donut chart</span><b>Choose visual</b></button><select id="customCategoryChartType" class="sr-only"></select></div>
+          </div>
+          <div class="settings-section-heading chart-appearance-heading"><div><h3>Chart appearance</h3><p>Adjust line behaviour, colours, legends, gridlines, fills, and motion.</p></div></div>
           <div class="form-grid settings-fields">
             <label>Line style<select id="customChartStyle"><option value="smooth">Smooth curves</option><option value="straight">Straight lines</option><option value="stepped">Stepped lines</option></select></label>
             <label>Chart palette<select id="customChartPalette"><option value="brand">Brand colours</option><option value="vivid">Vivid comparison</option><option value="mono">Monochrome</option></select></label>
@@ -429,6 +923,30 @@
     </div>
   </div>
 
+  <div class="modal" id="chartPickerModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-chart-picker></div>
+    <div class="modal-card chart-picker-modal" role="dialog" aria-modal="true" aria-labelledby="chartPickerTitle">
+      <button class="modal-close" data-close-chart-picker aria-label="Close">×</button>
+      <div class="chart-picker-header">
+        <div>
+          <p class="eyebrow">Visual gallery</p>
+          <h2 id="chartPickerTitle">Choose a chart or visual</h2>
+          <p id="chartPickerDescription">Select a visual for this dashboard panel. Every option includes a preview and its official chart name.</p>
+        </div>
+        <div class="chart-picker-target" id="chartPickerTarget">Cost performance</div>
+      </div>
+      <div class="chart-picker-toolbar">
+        <label class="visual-search"><span aria-hidden="true">⌕</span><input id="chartPickerSearch" type="search" placeholder="Search charts and visuals" autocomplete="off" /></label>
+        <span id="chartPickerCount">31 visuals</span>
+      </div>
+      <div class="chart-picker-categories" id="chartPickerCategories"></div>
+      <div class="chart-picker-footer">
+        <p><strong id="chartPickerSelectedName">Line chart</strong><span id="chartPickerSelectedDescription">Best for showing a trend across reporting periods.</span></p>
+        <button type="button" class="button secondary" data-close-chart-picker>Close</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="projectModal" aria-hidden="true">
     <div class="modal-backdrop" data-close-project></div>
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
@@ -439,7 +957,7 @@
       </div>
       <form id="projectForm" class="form-grid">
         <label>Project name<input id="newProjectName" required placeholder="e.g. Refinery shutdown works" /></label>
-        <label>Client<input id="newProjectClient" required placeholder="e.g. Eskom" /></label>
+        <label>Client<input id="newProjectClient" required placeholder="e.g. Cape Industrial Energy" /></label>
         <label>Location<input id="newProjectLocation" required placeholder="e.g. Cape Town" /></label>
         <label>Approved budget<input id="newProjectBudget" type="number" min="0" step="1000" required placeholder="10000000" /></label>
         <label>Start date<input id="newProjectStart" type="date" required /></label>
@@ -503,6 +1021,66 @@
         <button class="button secondary" data-close-export>Cancel</button>
       </div>
     </div>
+  </div>
+
+
+
+  <div class="modal" id="psExportModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-ps-export></div>
+    <div class="modal-card extra-large ps-export-modal" role="dialog" aria-modal="true" aria-labelledby="psExportTitle">
+      <button class="modal-close" data-close-ps-export aria-label="Close">×</button>
+      <div class="modal-header">
+        <p class="eyebrow">Advanced export settings</p>
+        <h2 id="psExportTitle">Export presentation</h2>
+        <p>Control the file format, slide range, layout, image quality, notes, page numbers, confidentiality markings, and appendix.</p>
+      </div>
+      <div class="ps-export-layout">
+        <div class="ps-export-form">
+          <div class="ps-export-section">
+            <strong>File format</strong>
+            <div class="ps-format-grid" id="psFormatGrid">
+              <label><input type="radio" name="psExportFormat" value="pptx" checked /><span class="ps-format-icon pptx">P</span><b>PowerPoint</b><small>.PPTX</small></label>
+              <label><input type="radio" name="psExportFormat" value="pdf" /><span class="ps-format-icon pdf">PDF</span><b>PDF</b><small>.PDF</small></label>
+              <label><input type="radio" name="psExportFormat" value="png" /><span class="ps-format-icon png">IMG</span><b>Images</b><small>.PNG</small></label>
+              <label><input type="radio" name="psExportFormat" value="doc" /><span class="ps-format-icon doc">W</span><b>Word report</b><small>.DOC</small></label>
+            </div>
+          </div>
+          <div class="ps-export-section ps-export-fields">
+            <label>Slide range<select id="psExportRange"><option value="all">All visible slides</option><option value="current">Current slide only</option></select></label>
+            <label>Page layout<select id="psExportLayout"><option value="deck">Use presentation canvas</option><option value="widescreen">Widescreen 16:9</option><option value="standard">Standard 4:3</option><option value="a4">A4 landscape</option><option value="a4p">A4 portrait</option></select></label>
+            <label>Image quality<select id="psExportQuality"><option value="1.5">Standard</option><option value="2" selected>High</option><option value="3">Print quality</option></select></label>
+            <label>File name<input id="psExportFileName" value="Civentraq-project-presentation" /></label>
+          </div>
+          <div class="ps-export-section ps-export-options">
+            <label class="ps-toggle-line"><span><b>Include speaker notes</b><small>Add notes to PowerPoint or below Word slides.</small></span><input id="psExportNotes" type="checkbox" checked /></label>
+            <label class="ps-toggle-line"><span><b>Page / slide numbers</b><small>Add numbering to exported pages.</small></span><input id="psExportPageNumbers" type="checkbox" checked /></label>
+            <label class="ps-toggle-line"><span><b>Confidential watermark</b><small>Apply a diagonal marking on each exported slide.</small></span><input id="psExportWatermark" type="checkbox" /></label>
+            <label>Watermark text<input id="psExportWatermarkText" value="CONFIDENTIAL" /></label>
+            <label class="ps-toggle-line"><span><b>Include data appendix</b><small>Add a final page with source and reporting information.</small></span><input id="psExportAppendix" type="checkbox" /></label>
+          </div>
+        </div>
+        <aside class="ps-export-summary">
+          <div class="ps-export-preview" id="psExportPreview"><span>16:9</span><strong id="psExportPreviewTitle">Project presentation</strong><small id="psExportPreviewSlides">0 slides</small></div>
+          <div class="ps-export-checklist"><p><span>✓</span>Professional theme applied</p><p><span>✓</span>Charts rendered at export quality</p><p><span>✓</span>Project branding included</p><p><span>✓</span>Hidden slides excluded</p></div>
+        </aside>
+      </div>
+      <div class="export-status hidden" id="psExportStatus" role="status" aria-live="polite"><span class="export-spinner"></span><span id="psExportStatusText">Preparing presentation…</span></div>
+      <div class="modal-actions"><button class="button secondary" type="button" data-close-ps-export>Cancel</button><button class="button primary" id="psRunExportButton" type="button">Export presentation</button></div>
+    </div>
+  </div>
+
+  <div class="ps-presenter" id="psPresenter" aria-hidden="true">
+    <div class="ps-presenter-stage" id="psPresenterStage"></div>
+    <div class="ps-presenter-laser" id="psPresenterLaser"></div>
+    <div class="ps-presenter-controls">
+      <button id="psPresenterPrev" type="button">←</button>
+      <span id="psPresenterCounter">1 / 1</span>
+      <button id="psPresenterNext" type="button">→</button>
+      <button id="psPresenterNotesButton" type="button">Notes</button>
+      <button id="psPresenterLaserButton" type="button">Laser</button>
+      <button id="psPresenterExit" type="button">Exit</button>
+    </div>
+    <aside class="ps-presenter-notes" id="psPresenterNotes" hidden><strong>Speaker notes</strong><p></p></aside>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
